@@ -78,6 +78,9 @@ wp-content/debug.log
 /wp-content/plugins/*
 /wp-content/themes/*
 
+# do version-control the theme we care about
+!/wp-content/themes/wiscobserver
+
 # large/disallowed file types
 # a CDN should be used for these
 *.hqx
