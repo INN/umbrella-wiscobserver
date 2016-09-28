@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     var path = process.cwd().replace(/^[\s\S]+\/wp-content/, "\/wp-content");
 
     var CSS_LESS_FILES = {
-        'css/style.css': 'less/child.less'
+        'css/child.css': 'less/child.less'
     };
 
     grunt.initConfig({
