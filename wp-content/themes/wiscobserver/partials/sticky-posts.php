@@ -22,12 +22,6 @@ if ( $query->have_posts() ) {
 		$hero_class = largo_hero_class( $post->ID, FALSE );
 		$values = get_post_custom( $post->ID );
 
-		if ( largo_post_in_series() ) {
-			// if the sticky post is part of a series, see if there are any other posts in that series
-			$feature = largo_get_the_main_feature();
-			$feature_posts = largo_get_recent_posts_for_term( $feature, 3, 1 );
-		}
-
 		// Begin display
 
 		if ( $sticky && $sticky[0] && ! is_paged() ) { ?>
@@ -69,29 +63,8 @@ if ( $query->have_posts() ) {
 					<?php
 						largo_excerpt( $post, 2 );
 						$shown_ids[] = get_the_ID();
+					?>
 
-						if ( $feature_posts ) { //if the sticky post is in a series, show up to 3 other posts in that series ?>
-							<div class="sticky-features-list">
-								<h4><?php _e('More from', 'largo'); ?> <span class="series-name"><?php echo esc_html( $feature->name ); ?></span></h4>
-								<ul>
-									<?php
-										foreach ( $feature_posts as $feature_post ):
-											printf( '<li><a href="%1$s">%2$s</a></li>',
-												esc_url( get_permalink( $feature_post->ID ) ),
-												esc_attr( get_the_title( $feature_post->ID ) )
-											);
-										endforeach;
-									?>
-								</ul>
-								<?php
-								if ( count( $feature_posts ) == 3 )
-											printf( '<p class="sticky-all"><a href="%1$s">%2$s &raquo;</a></p>',
-												esc_url( get_term_link( $feature ) ),
-												__( 'Full Coverage', 'largo' )
-											);
-								?>
-							</div>
-						<?php } // feature_posts ?>
 					</div>
 				</div> <!-- end sticky-solo or sticky-related -->
 			</article>
