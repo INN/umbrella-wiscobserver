@@ -6,16 +6,12 @@
  */
 
 /**
- * Create the "Truth Score" metabox
+ * Getting this standardized across places
+ *
+ * Why a function to return this array? It turns out that static methods of classes can't access $this
  */
-function wisco_truth_score_metabox_display() {
-	global $post;
-	$post_custom = get_post_meta( $post->ID, 'truth_score', true );
-	$truthiness = ( isset( $post_custom ) ) ? $post_custom : '';
-	var_log($truthiness);
-	wp_nonce_field( 'truth_score', 'truth_score_nonce' );
-
-	$options = array(
+function wisco_truth_score_options_array() {
+	return array(
 		'' => 'Not Set',
 		'0' => 'Unobservable',
 		'1' => 'False',
@@ -23,6 +19,17 @@ function wisco_truth_score_metabox_display() {
 		'3' => 'Mostly True',
 		'4' => 'Verified'
 	);
+}
+
+/**
+ * Create the "Truth Score" metabox
+ */
+function wisco_truth_score_metabox_display() {
+	global $post;
+	$truthiness = wisco_truth_score_for_post( $post );
+	wp_nonce_field( 'truth_score', 'truth_score_nonce' );
+
+	$options = wisco_truth_score_options_array();
 	?>
 		<div id="wisco_truth_score_metabox">
 			<label for="truth_score"></label>
@@ -77,11 +84,47 @@ function wisco_truth_score_save_fields( $post_id ){
 add_action( 'save_post', 'wisco_truth_score_save_fields' );
 
 /**
+ * Get truth score for post
+ *
+ * @param WP_Post|str|int|null $post Optional; the ID or WP_Post of the post that should be checked for truth score
+ * @return string The truth score for a post, or '' if it has none. Truth scores are usually string numbers 0-4
+ */
+function wisco_truth_score_for_post( $post = null ) {
+	$post = get_post( $post );
+
+	$post_custom = get_post_meta( $post->ID, 'truth_score', true );
+	$truthiness = ( isset( $post_custom ) ) ? $post_custom : '';
+
+	return $truthiness;
+}
+
+/**
+ * Given a truth score, get the appropriate image 
+ *
+ * If you are copying this file to another site, make sure that the filepath in the img src attribute is correct
+ * @param str $score '' or 0-4
+ * @return HTML for the appropriate image
+ *
+ * @todo: alt text
+ */
+function wisco_truth_score_get_graphic_for_score( $score ) {
+	if ( is_numeric( $score ) ) {
+		$texts = wisco_truth_score_options_array();
+
+		return sprintf(
+			'<img class="truth-score truth-score-%2$s" src="%1$s/img/red/%2$s.png" alt="%3$s"/>',
+			get_stylesheet_directory_uri(),
+			$score,
+			$texts[$score]
+		);
+	}
+}
+
+/**
  * Output the appropriate "Truth Score" graphic on single posts
  */
 function wisco_truth_score_single_post_action() {
-	global $post;
-	$score = get_post_meta( $post->ID, 'truth_score', true );
-	echo '<h1>truthy: '. esc_attr($score) . '</h1>';
+	$score = wisco_truth_score_for_post();
+	echo wisco_truth_score_get_graphic_for_score( $score );
 }
 add_action( 'largo_after_hero', 'wisco_truth_score_single_post_action');
