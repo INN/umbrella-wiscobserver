@@ -118,6 +118,8 @@ function wisco_truth_score_get_graphic_for_score( $score ) {
 			$texts[$score]
 		);
 	}
+
+	return '';
 }
 
 /**
