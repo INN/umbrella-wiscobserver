@@ -6,12 +6,12 @@
 /**
  * Include compiled style.css
  */
-function wisco_styles() {
+function wisc_styles() {
 	wp_dequeue_style( 'largo-child-styles' );
 	$suffix = (LARGO_DEBUG)? '' : '.min';
-	wp_enqueue_style( 'wisco', get_stylesheet_directory_uri() . '/css/child' . $suffix . '.css' );
+	wp_enqueue_style( 'wisc', get_stylesheet_directory_uri() . '/css/child' . $suffix . '.css' );
 }
-add_action( 'wp_enqueue_scripts', 'wisco_styles', 20 );
+add_action( 'wp_enqueue_scripts', 'wisc_styles', 20 );
 
 
 /**
@@ -37,3 +37,13 @@ function largo_child_require_files() {
 	}
 }
 add_action( 'after_setup_theme', 'largo_child_require_files' );
+
+/**
+ * Add typekit
+ */
+function wisc_typekit() { ?>
+	<script type="text/javascript" src="//use.typekit.net/dpf3ziv.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<?php
+}
+add_action( 'wp_head', 'wisc_typekit' );
