@@ -32,7 +32,6 @@ a {
 }
 h5.top-tag,
 h5.top-date,
-.sidebar2 h5,
 .widgettitle,
 .byline,
 .sticky-footer-container h4,
@@ -44,18 +43,93 @@ h5.top-date,
 #site-footer .widget_text h5,
 #boilerplate,
 p.wp-caption-text,
-p.wp-media-credit,
-#dark-top p,
-.widget.largo-series-posts,
-.widget.largo-series-posts p,
-.widget p,
-.widget ul,
-.largo-recent-posts h5,
-.single-post .sidebar2 {
+p.wp-media-credit {
   font-family: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
   letter-spacing: 0.035em;
 }
 
 .navbar li.home-icon>a img {
   height: 28px;
+}
+
+h5.top-tag,
+h5.top-date {
+  font-weight: 400;
+}
+h5.top-date {
+  font-style: italic;
+  color: #777;
+}
+
+.entry-content p,
+.entry-content ul,
+.entry-content ol {
+  font-size: 21px;
+  letter-spacing: 0.035em;
+}
+.entry-content p.intro {
+  font-size: 28px;
+}
+h1.entry-title,
+h1.page-title {
+  font-size: 60px;
+  font-weight: 500;
+}
+.single-post h2.subtitle {
+  font-size: 21px;
+  font-weight: normal;
+  color: #999;
+}
+p.intro,
+p.wp-caption-text {
+  font-style: normal;
+}
+.entry-content p.wp-media-credit {
+  font-size: 13px;
+}
+
+/* Article bottom widgets */
+.article-bottom .widget p {
+  font-size: 17px;
+}
+
+/* Related posts */
+.article-bottom .largo-related-posts {
+  h4 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+span.author-posts-link {
+  font-family: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  float: right;
+  clear: both;
+}
+
+.primary-featured-post .span8 h2.entry-title {
+  line-height: 1.1;
+}
+.primary-featured-post .entry-content p,
+.primary-featured-post .entry-content ul,
+.primary-featured-post .entry-content ol {
+  font-size: 19px;
+}
+
+@media only screen and (max-width: 767px) {
+  h1.entry-title {
+    font-size: 38px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .entry-content p,
+  .entry-content ol,
+  .entry-content ul {
+    font-size: 18px;
+  }
+  h1.entry-title {
+    font-size: 28px;
+  }	
 }
