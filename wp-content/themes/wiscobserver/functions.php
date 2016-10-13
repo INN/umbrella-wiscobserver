@@ -42,8 +42,8 @@ add_action( 'after_setup_theme', 'largo_child_require_files' );
  * Add typekit
  */
 function wisc_typekit() { ?>
-	<script type="text/javascript" src="//use.typekit.net/dpf3ziv.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<script src="https://use.typekit.net/pdc2otq.js"></script>
+	<script>try{Typekit.load({ async: true });}catch(e){}</script>
 <?php
 }
 add_action( 'wp_head', 'wisc_typekit' );
