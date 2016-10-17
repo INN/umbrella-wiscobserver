@@ -44,15 +44,23 @@ if ( $query->have_posts() ) {
 
 				<?php }
 
-				$entry_classes = 'entry-content span10 with-hero';
+				$entry_classes = 'entry-content ';
 
 				?>
 				<div class="<?php echo $entry_classes?>">
 
 					<?php
-						if ( largo_has_categories_or_tags() ) {
-							echo '<h5 class="top-tag">' . largo_top_term( $args = array( 'echo' => FALSE ) ) . '</h5>';
+						largo_maybe_top_term();
+					?>
+
+					<?php
+						// output the truth thingy if it's set
+						$truth_thumbnail = wisco_truth_score_get_graphic_for_score( wisco_truth_score_for_post( $post ) );
+
+						if ( ! empty ( $truth_thumbnail ) ) {
+							echo '<div class="has-thumbnail '.$hero_class.'"><a href="' . get_permalink() . '">' . $truth_thumbnail  . '</a></div>';
 						}
+
 					?>
 
 					<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( array( 'before' => __( 'Permalink to', 'largo' ) . ' ' ) )?>" rel="bookmark"><?php the_title(); ?></a></h2>
