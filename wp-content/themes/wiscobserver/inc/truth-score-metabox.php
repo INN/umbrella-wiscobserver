@@ -10,15 +10,47 @@
  *
  * Why a function to return this array? It turns out that static methods of classes can't access $this
  */
-function wisco_truth_score_options_array() {
-	return array(
-		'' => 'Not Set',
-		'0' => 'Unobservable',
-		'1' => 'False',
-		'2' => 'Mostly False',
-		'3' => 'Mostly True',
-		'4' => 'Verified'
+function wisco_truth_score_get_active_options() {
+	$defaults = array(
+		0 => array(
+			'value' => 0,
+			'label' => 'Unobservable',
+			'image' => '',
+		),
+		1 => array(
+			'value' => 1,
+			'label' => 'False',
+			'image' => '',
+		),
+		2 => array(
+			'value' => 2,
+			'label' => 'Mostly False',
+			'image' => '',
+		),
+		3 => array(
+			'value' => 3,
+			'label' => 'Mostly True',
+			'image' => '',
+		),
+		4 => array(
+			'value' => 4,
+			'label' => 'Verified',
+			'image' => '',
+		),
 	);
+
+	$options = maybe_unserialize( get_option( 'truth_score_mappings_options' ) );
+	if ( ! is_array( $options ) ) { $options = array(); };
+	// keep an eye on this, arary_merge doesn't play well with numeric keys according to https://secure.php.net/manual/en/function.array-merge.php
+
+	return array_merge( $defaults, $options );
+}
+
+function wisco_truth_score_options_array() {
+	$options =  wisco_truth_score_get_active_options();
+	$return = wp_list_pluck( $options, 'label', 'value' );
+	$return[ '' ] = 'Not Set'; // add the unset value
+	return $return;
 }
 
 /**
@@ -130,3 +162,76 @@ function wisco_truth_score_single_post_action() {
 	echo wisco_truth_score_get_graphic_for_score( $score );
 }
 add_action( 'largo_after_hero', 'wisco_truth_score_single_post_action');
+
+/**
+ *
+ * Truth Score label and image settings page
+ *
+ */
+
+/**
+ * Register option page.
+ *
+ * @since v0.1
+ */
+function truth_score_plugin_menu() {
+	add_options_page(
+		'Truth Score', 	// $page_title title of the page.
+		'Truth Score', 	                // $menu_title the text to be used for the menu.
+		'manage_options', 				// $capability required capability for display.
+		'truth-score', 	// $menu_slug unique slug for menu.
+		'truth_score_option_page_html' 			// $function callback.
+	);
+}
+add_action( 'admin_menu', 'truth_score_plugin_menu' );
+
+
+/**
+ * Output the HTML for the option page.
+ *
+ * @since v0.1
+ */
+function truth_score_option_page_html() {
+	if ( !current_user_can( 'manage_options' ) ) {
+		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+	}
+
+	echo '<div class="wrap">';
+		echo '<h2>DoubleClick for WordPress Options</h2>';
+		echo '<form method="post" action="options.php">';
+			settings_fields( 'truth-score' );
+			do_settings_sections( 'truth-score' );
+			submit_button();
+		echo '</form>';
+	echo '</div>'; // div.wrap
+}
+
+/**
+ * Registers options for the thing
+ */
+function truth_score_register_options() {
+	add_settings_section(
+		'truth_score_mappings_options',
+		'Truth Score Types',
+		'truth_score_mappings_intro',
+		'truth-score'
+	); // id, title, callback, page
+	
+	add_settings_field(
+		'truth_score_mappings',
+		'Truth Score Labels and Images',
+		'truth_score_mappings_fields',
+		'truth-score',
+		'truth_score_mappings_options'
+	); // id, title, callback, page, section, args
+
+	register_setting( 'truth-score', 'truth_score_mappings' );
+}
+add_action( 'admin_init', 'truth_score_register_options' );
+
+function truth_score_mappings_intro() {
+	echo "Change the labels and images that will be used for the various truth score levels";
+}
+
+function truth_score_mappings_fields() {
+}
