@@ -15,27 +15,27 @@ function wisco_truth_score_get_active_options() {
 		0 => array(
 			'value' => 0,
 			'label' => 'Unobservable',
-			'image' => '',
+			'image' => get_stylesheet_directory_uri() . '/img/red/0.png',
 		),
 		1 => array(
 			'value' => 1,
 			'label' => 'False',
-			'image' => '',
+			'image' => get_stylesheet_directory_uri() . '/img/red/1.png',
 		),
 		2 => array(
 			'value' => 2,
 			'label' => 'Mostly False',
-			'image' => '',
+			'image' => get_stylesheet_directory_uri() . '/img/red/2.png',
 		),
 		3 => array(
 			'value' => 3,
 			'label' => 'Mostly True',
-			'image' => '',
+			'image' => get_stylesheet_directory_uri() . '/img/red/3.png',
 		),
 		4 => array(
 			'value' => 4,
 			'label' => 'Verified',
-			'image' => '',
+			'image' => get_stylesheet_directory_uri() . '/img/red/4.png',
 		),
 	);
 
@@ -141,13 +141,12 @@ function wisco_truth_score_for_post( $post = null ) {
  */
 function wisco_truth_score_get_graphic_for_score( $score ) {
 	if ( is_numeric( $score ) ) {
-		$texts = wisco_truth_score_options_array();
+		$options = wisco_truth_score_get_active_options();
 
 		return sprintf(
-			'<img class="truth-score truth-score-%2$s" src="%1$s/img/red/%2$s.png" alt="%3$s"/>',
-			get_stylesheet_directory_uri(),
-			$score,
-			$texts[$score]
+			'<img class="truth-score truth-score-%2$s" src="%1$s" alt="%2$s"/>',
+			$options[$score]['image'],
+			$options[$score]['label']
 		);
 	}
 
