@@ -224,7 +224,7 @@ function truth_score_register_options() {
 		'truth_score_mappings_options'
 	); // id, title, callback, page, section, args
 
-	register_setting( 'truth-score', 'truth_score_mappings' );
+	register_setting( 'truth-score', 'truth_score_mappings', 'truth_score_mappings_save' );
 }
 add_action( 'admin_init', 'truth_score_register_options' );
 
@@ -233,4 +233,50 @@ function truth_score_mappings_intro() {
 }
 
 function truth_score_mappings_fields() {
+	$scores = wisco_truth_score_get_active_options();
+
+	foreach ( $scores as $score ) {
+		?>
+			<h5>
+				<?php
+					printf(
+						__( 'Truth Score %1$s', 'truth-score' ),
+						$score['value']
+					);
+				?>
+			</h5>
+			<label for="<?php echo $score['value']; ?>-label">
+				<?php
+					_e( 'Label', 'truth-score' );
+				?>
+			</label>
+			<input
+				id="<?php echo $score['value']; ?>-label"
+				placeholder="<?php echo $score['label']; ?>"
+				type="text"
+				class="medium-text"
+				id="<?php echo $score['label']; ?>"
+			/>
+			<br />
+
+			<label for="<?php echo $score['value']; ?>-label">
+				<?php
+					_e( 'Image URL', 'truth-score' );
+				?>
+			</label>
+			<input
+				id="<?php echo $score['value']; ?>-image"
+				placeholder="<?php echo $score['image']; ?>"
+				type="text"
+				class="medium-text"
+				id="<?php echo $score['image']; ?>"
+			/>
+			<br/>
+		<?php
+	}
+}
+
+function truth_score_mappings_save( $value ) {
+	var_log( $value );
+	return $value;
 }
