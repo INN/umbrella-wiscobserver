@@ -245,31 +245,31 @@ function truth_score_mappings_fields() {
 					);
 				?>
 			</h5>
-			<label for="<?php echo $score['value']; ?>-label">
+			<label for="truth_score_mappings[]">
 				<?php
 					_e( 'Label', 'truth-score' );
 				?>
 			</label>
 			<input
-				id="<?php echo $score['value']; ?>-label"
+				id="truth_score_mappings[]"
 				placeholder="<?php echo $score['label']; ?>"
 				type="text"
 				class="medium-text"
-				id="<?php echo $score['label']; ?>"
+				value="<?php echo $score['label']; ?>"
 			/>
 			<br />
 
-			<label for="<?php echo $score['value']; ?>-label">
+			<label for="truth_score_mappings[]">
 				<?php
 					_e( 'Image URL', 'truth-score' );
 				?>
 			</label>
 			<input
-				id="<?php echo $score['value']; ?>-image"
+				id="truth_score_mappings[]"
 				placeholder="<?php echo $score['image']; ?>"
 				type="text"
 				class="medium-text"
-				id="<?php echo $score['image']; ?>"
+				value="<?php echo $score['image']; ?>"
 			/>
 			<br/>
 		<?php
