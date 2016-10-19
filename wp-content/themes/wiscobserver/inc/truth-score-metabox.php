@@ -40,11 +40,12 @@ function wisco_truth_score_get_active_options() {
 	);
 
 	$options = maybe_unserialize( get_option( 'truth_score_mappings' ) );
-	var_log( $options );
-	if ( ! is_array( $options ) ) { $options = array(); };
+	if ( ! is_array( $options ) ) { $options = array(); }
 
-	#delete_option( 'truth_score_mappings' );
-	return wp_parse_args( $defaults, $options );
+	delete_option( 'truth_score_mappings' );
+	$return = array_replace( $defaults, $options );
+
+	return $return;
 }
 
 function wisco_truth_score_options_array() {
@@ -104,7 +105,6 @@ function wisco_truth_score_save_fields( $post_id ){
 
 	// bail if our nonce isn't set, or if we cannot verify it.
 	if ( ! isset( $_POST['truth_score_nonce'] ) || ! wp_verify_nonce( $_POST['truth_score_nonce'] , 'truth_score') ) {
-		var_log("bailing");
 		return;
 	}
 
@@ -286,6 +286,14 @@ function truth_score_mappings_fields() {
 
 function truth_score_mappings_save( $submitted ) {
 	$options = array();
+
+	// This if check is a workaround for https://core.trac.wordpress.org/ticket/21989
+	// Look at the $defaults in wisco_truth_score_get_active_options
+	// If the first value of the thing is an array, then this has already been sanitized.
+	// The form submission is a flat array.
+	if ( is_array( $submitted[0] ) ) {
+		return $submitted;
+	}
 	$groups = array_chunk( $submitted, 3 ); // split an array of answers into an array of two-part arrays
 
 	foreach ( $groups as $group ) {
@@ -296,7 +304,6 @@ function truth_score_mappings_save( $submitted ) {
 		);
 	}
 
-	var_log( $options );
 
 	return $options;
 }
