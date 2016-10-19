@@ -245,6 +245,13 @@ function truth_score_mappings_fields() {
 					);
 				?>
 			</h5>
+
+			<input
+				name="truth_score_mappings[]"
+				type="hidden"
+				value="<?php echo $score['value']; ?>"
+			/>
+
 			<label for="truth_score_mappings[]">
 				<?php
 					_e( 'Label', 'truth-score' );
@@ -276,7 +283,18 @@ function truth_score_mappings_fields() {
 	}
 }
 
-function truth_score_mappings_save( $value ) {
-	var_log( $value );
-	return $value;
+function truth_score_mappings_save( $submitted ) {
+	$options = array();
+	$groups = array_chunk( $submitted, 3 ); // split an array of answers into an array of two-part arrays
+
+	foreach ( $groups as $group ) {
+		$options[] = array(
+			'value' => $group[0],
+			'label' => $group[1],
+			'image' => $group[2]
+		);
+	}
+	var_log($submitted);
+
+	return $submitted;
 }
