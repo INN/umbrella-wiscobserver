@@ -294,7 +294,6 @@ function truth_score_mappings_save( $submitted ) {
 			'image' => $group[2]
 		);
 	}
-	var_log($submitted);
 
-	return $submitted;
+	return $options;
 }
