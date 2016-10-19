@@ -26,7 +26,7 @@ if ( $query->have_posts() ) {
 
 		if ( $sticky && $sticky[0] && ! is_paged() ) { ?>
 
-			<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix entry-content '); ?>>
+			<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix entry-content sticky-top'); ?>>
 
 				<?php if ( has_post_thumbnail() ) { ?>
 
