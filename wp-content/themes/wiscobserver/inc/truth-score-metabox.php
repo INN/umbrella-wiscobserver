@@ -196,7 +196,7 @@ function truth_score_option_page_html() {
 	}
 
 	echo '<div class="wrap">';
-		echo '<h2>DoubleClick for WordPress Options</h2>';
+		echo '<h2>Truth Score Options</h2>';
 		echo '<form method="post" action="options.php">';
 			settings_fields( 'truth-score' );
 			do_settings_sections( 'truth-score' );
