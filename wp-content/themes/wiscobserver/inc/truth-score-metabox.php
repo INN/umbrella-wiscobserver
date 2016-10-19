@@ -39,11 +39,12 @@ function wisco_truth_score_get_active_options() {
 		),
 	);
 
-	$options = maybe_unserialize( get_option( 'truth_score_mappings_options' ) );
+	$options = maybe_unserialize( get_option( 'truth_score_mappings' ) );
+	var_log( $options );
 	if ( ! is_array( $options ) ) { $options = array(); };
-	// keep an eye on this, arary_merge doesn't play well with numeric keys according to https://secure.php.net/manual/en/function.array-merge.php
 
-	return array_merge( $defaults, $options );
+	#delete_option( 'truth_score_mappings' );
+	return wp_parse_args( $defaults, $options );
 }
 
 function wisco_truth_score_options_array() {
@@ -294,6 +295,8 @@ function truth_score_mappings_save( $submitted ) {
 			'image' => $group[2]
 		);
 	}
+
+	var_log( $options );
 
 	return $options;
 }
