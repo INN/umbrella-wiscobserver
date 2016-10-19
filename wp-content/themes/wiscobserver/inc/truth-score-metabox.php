@@ -251,7 +251,7 @@ function truth_score_mappings_fields() {
 				?>
 			</label>
 			<input
-				id="truth_score_mappings[]"
+				name="truth_score_mappings[]"
 				placeholder="<?php echo $score['label']; ?>"
 				type="text"
 				class="medium-text"
@@ -265,7 +265,7 @@ function truth_score_mappings_fields() {
 				?>
 			</label>
 			<input
-				id="truth_score_mappings[]"
+				name="truth_score_mappings[]"
 				placeholder="<?php echo $score['image']; ?>"
 				type="text"
 				class="medium-text"
