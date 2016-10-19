@@ -42,7 +42,6 @@ function wisco_truth_score_get_active_options() {
 	$options = maybe_unserialize( get_option( 'truth_score_mappings' ) );
 	if ( ! is_array( $options ) ) { $options = array(); }
 
-	delete_option( 'truth_score_mappings' );
 	$return = array_replace( $defaults, $options );
 
 	return $return;
