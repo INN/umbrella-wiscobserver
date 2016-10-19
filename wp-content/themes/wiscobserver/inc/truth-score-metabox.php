@@ -288,7 +288,7 @@ function truth_score_mappings_save( $submitted ) {
 
 	// This if check is a workaround for https://core.trac.wordpress.org/ticket/21989
 	// Look at the $defaults in wisco_truth_score_get_active_options
-	// If the first value of the thing is an array, then this has already been sanitized.
+	// If the first value of the thing is an array, then this has already been sanitized by this function.
 	// The form submission is a flat array.
 	if ( is_array( $submitted[0] ) ) {
 		return $submitted;
